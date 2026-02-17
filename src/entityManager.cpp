@@ -1,5 +1,5 @@
-#include "entityManager.hpp"
-#include "types.hpp"
+#include "../include/entityManager.hpp"
+#include "../include/types.hpp"
 #include <sys/types.h>
 
 

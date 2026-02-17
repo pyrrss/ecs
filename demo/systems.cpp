@@ -21,7 +21,7 @@ void MovementSystem::move(ECS &ecs, float delta_time)
             EntityId entity_id = transform_slot.entity_id;
             if (!ecs.has_component<PhysicsComponent>(entity_id))
             {
-                continue; // -> si la entidad no tiene physics componente, saltar
+                continue; // -> si la entidad no tiene physics component, saltar
             }
 
             TransformComponent& transform = transform_slot.component;

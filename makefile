@@ -1,11 +1,20 @@
 CXX ?= g++
-SRC_FILES = $(wildcard src/*.cpp)
-EXECUTABLE = exec
+EXECUTABLE ?= exec
 
-# Basic flags (keep it simple; override from CLI if needed)
+BUILDDIR ?= build
+OBJDIR ?= $(BUILDDIR)/obj
+LIBECS := $(BUILDDIR)/libecs.a
+
+CORE_SRC := $(wildcard src/*.cpp)
+DEMO_SRC := $(wildcard demo/*.cpp)
+
+CORE_OBJ := $(patsubst src/%.cpp,$(OBJDIR)/core_%.o,$(CORE_SRC))
+DEMO_OBJ := $(patsubst demo/%.cpp,$(OBJDIR)/demo_%.o,$(DEMO_SRC))
+
 CXXFLAGS ?= -std=c++17 -O2 -Wall -Wextra
 
-# raylib via pkg-config (recommended for system/package-manager installs)
+CPPFLAGS += -Iinclude
+
 RAYLIB_CFLAGS := $(shell pkg-config --cflags raylib 2>/dev/null)
 RAYLIB_LIBS := $(shell pkg-config --libs raylib 2>/dev/null)
 
@@ -18,11 +27,29 @@ endif
 
 all: build
 
-build:
-	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $(EXECUTABLE) $(SRC_FILES) $(LDFLAGS) $(LDLIBS)
+build: $(EXECUTABLE)
+
+lib: $(LIBECS)
+
+$(EXECUTABLE): $(LIBECS) $(DEMO_OBJ)
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -o $@ $(DEMO_OBJ) $(LIBECS) $(LDFLAGS) $(LDLIBS)
+
+$(LIBECS): $(CORE_OBJ)
+	@ar rcs $@ $(CORE_OBJ)
+
+$(OBJDIR)/core_%.o: src/%.cpp | $(OBJDIR)
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJDIR)/demo_%.o: demo/%.cpp | $(OBJDIR)
+	@$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
 run: build
 	@./$(EXECUTABLE)
 
 clean:
-	@rm -f $(EXECUTABLE)
+	@rm -rf $(BUILDDIR) $(EXECUTABLE)
+
+.PHONY: all build lib run clean

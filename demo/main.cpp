@@ -3,9 +3,6 @@
 #include "components.hpp"
 #include "systems.hpp"
 
-#include "types.hpp"
-
-
 void spawn_particles(ECS &ecs, float spawn_rate, float delta_time)
 {
     static float spawn_timer = 0.0f;

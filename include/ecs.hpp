@@ -9,7 +9,6 @@
 
 using namespace ecs_types;
 
-// Clase que define API principal de ECS. Permite manejo de entidades y componentes (sistemas están aparte)
 class ECS
 {
     private:

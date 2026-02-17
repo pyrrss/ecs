@@ -15,7 +15,4 @@ namespace ecs_types
 
     using Signature = std::bitset<MAX_COMPONENTS>; // -> signature es una cadena de bits asociada a cada entidad que indica
                                                    // qué componentes tiene (cada bit representa a un tipo de componente)
-
-    
-
 }
