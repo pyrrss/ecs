@@ -2,9 +2,9 @@ Implementación Entity-Component-System en C++
 
 Características principales:
 * Creación y destrucción de entidades con ids únicos pero reciclables.
-* Signatures (bitsets) asociados a cada entidad para determinar tenencia de componentes y destrucción.
-* Registro y manejo general (add/get/remove) de componentes con uso de sparse sets (dense y sparse)
-* Sistemas iteran pools densos
+* Signatures (bitsets) asociados a cada entidad para manejar tenencia y destrucción de componentes.
+* Registro y manejo general (add/get/remove) de componentes con uso de sparse sets (dense y sparse).
+* Sistemas iteran pools densos.
 
 ## Demo básica de demostración usando ECS como API
 

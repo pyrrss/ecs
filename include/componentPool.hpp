@@ -5,7 +5,6 @@
 
 #include "types.hpp"
 
-// NOTE: prob. sea mejor evitar este using y acceder a él mediante ecs_types::<>
 using namespace ecs_types;
 
 class IComponentPool
@@ -14,10 +13,6 @@ class IComponentPool
         virtual ~IComponentPool() = default;
         virtual void remove_component(EntityId entity_id) = 0;
 };
-
-// TODO: implementar clase base para todos los components. de esa forma puedo tener componentes arbitrarios
-// y puedo hacer un unordered_map para relacionar typeid/typename con su component pool correspondiente (pero almacenando
-// como clase base y poder tenerlos todos en el mismo contenedor)
 
 template <typename Component>
 struct DenseSlot
@@ -30,7 +25,7 @@ template <typename Component>
 class ComponentPool : public IComponentPool
 {
     private:
-        // NOTE: oportunidad de optimización: paginar m_sparse (cuando tenga muchas entidades, > 100k?)
+        // NOTE: oportunidad de optimización: paginar m_sparse (supongo que afectará cuando hayan muchas entidades)
     
         std::vector<uint32_t> m_sparse; // -> sparse vector := cada índice es un EntityId, el valor es un índice del vector denso
         std::vector<DenseSlot<Component>> m_dense; // -> dense vector := cada slot tiene un componente 

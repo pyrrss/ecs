@@ -10,9 +10,6 @@ using namespace ecs_types;
 class EntityManager
 {
     private:
-        // NOTE: estoy usando arrays dinámicos por simplicidad (no me preocupo de limites)
-        // pero no sé cuánto afecte esto en rendimiento. evaluar luego
-
         std::vector<EntityId> m_available_entities; // -> entidades disponibles (se usa como stack)
         std::vector<Signature> m_signatures; // -> firma de cada entidad (qué componentes tiene),
                                              // cada bit representa si tiene un componente o no,
